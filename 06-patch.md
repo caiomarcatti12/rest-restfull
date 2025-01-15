@@ -1,6 +1,4 @@
-Atualização Parcial de Recursos com PATCH
-
-## Introdução
+#Atualização Parcial de Recursos com PATCH
 
 No contexto de uma API RESTful, o método **PATCH** é comumente usado para atualizar parcialmente um recurso existente no sistema, ao invés de substituí-lo completamente como o método **PUT**.
 
