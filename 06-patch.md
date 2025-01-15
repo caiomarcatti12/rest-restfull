@@ -8,7 +8,7 @@ Essa abordagem permite maior eficiência, pois somente os campos necessários s�
 
 ## Existe um Padrão?
 
-Sim, o uso do verbo **PATCH** segue as diretrizes do protocolo HTTP. No entanto, a implementação exata pode variar dependendo do design da API. É importante manter consistência e seguir padrões estabelecidos, como o uso de payloads JSON e cabeçalhos adequados.
+Sim, o uso do verbo **PATCH** segue as diretrizes do protocolo HTTP. No entanto, a implementação exata pode variar dependendo do design da API. É importante manter consistência e seguir padrões estabelecidos, como o uso de payloads JSON e cabeçalhos adequados. Evite incluir na URL ou nos campos informações redundantes, como "update", pois o verbo já indica a ação.
 
 ---
 
@@ -65,25 +65,27 @@ Sim, o uso do verbo **PATCH** segue as diretrizes do protocolo HTTP. No entanto,
 
 #### Código de Status:
 
-```
-200 OK
-```
+1. **Quando há conteúdo no corpo da resposta:**
 
-#### Corpo da Resposta:
+   - **200 OK**: Recurso atualizado com sucesso.
 
-Caso a mensagem seja dinâmica:
+   ```json
+   {
+     "message": "Recurso 1234 atualizado com sucesso",
+     "updatedFields": {
+       "name": "John Smith",
+       "email": "john@example.com"
+     }
+   }
+   ```
 
-```json
-{
-  "message": "Recurso 123atualizado com sucesso"
-}
-```
+2. **Quando não há conteúdo no corpo da resposta:**
 
-Se nenhuma mensagem dinamica for necessária, a resposta pode ser vazia:
+   - **204 No Content**: Indica que o recurso foi atualizado com sucesso, sem um corpo de resposta.
 
-```json
-{}
-```
+   ```
+   (Sem corpo)
+   ```
 
 ---
 
@@ -91,15 +93,15 @@ Se nenhuma mensagem dinamica for necessária, a resposta pode ser vazia:
 
 - **PUT:**
 
-    - Substitui completamente o recurso.
-    - Todos os campos precisam ser enviados.
-    - Útil para atualizações completas.
+  - Substitui completamente o recurso.
+  - Todos os campos precisam ser enviados.
+  - Útil para atualizações completas.
 
 - **PATCH:**
 
-    - Atualiza apenas os campos fornecidos.
-    - Reduz o tamanho da requisição.
-    - Mais eficiente para alterações parciais.
+  - Atualiza apenas os campos fornecidos.
+  - Reduz o tamanho da requisição.
+  - Mais eficiente para alterações parciais.
 
 Exemplo com PUT:
 
@@ -134,6 +136,8 @@ Content-Type: application/json
 
 - Prefira o uso de **PATCH** para atualizações parciais de recursos.
 - Certifique-se de validar as requisições para evitar alterações indevidas ou inconsistentes.
-- Utilize respostas claras para indicar o sucesso ou a falha da operação.
+- Utilize respostas claras para indicar o sucesso ou a falha da operação, e escolha o código de status adequado:
+  - **200 OK**: Quando há conteúdo na resposta.
+  - **204 No Content**: Quando não há conteúdo na resposta.
 
 Essa abordagem melhora a eficiência e segue as boas práticas de design de APIs RESTful.
